@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles.css">
+    <title>bonsai</title>
+  </head>
+  <body>
+    
+    <script>
+
+    function getComputerChoice() {
+      let choice = Math.floor(Math.random() * 3) + 1;
+      if (choice === 1) {
+          return 'rock';
+      } else if (choice === 2) {
+          return 'paper';
+      } else {
+          return 'scissors'
+      }
+    }
+
+    function playRound(playerSelection, computerSelection) {
+      switch (true){
+        case playerSelection === computerSelection:
+          return  'It\'s a tie'
+          break;
+        case playerSelection === 'rock' && computerSelection === 'paper':
+          return  'You Lose!' + ' ' + 'Paper Beats Rock'
+          break;
+        case playerSelection === 'paper' && computerSelection === 'scissors':
+          return  'You Lose!' + ' ' + 'Scissors Beats Paper'
+          break;
+        case playerSelection === 'scissors' && computerSelection === 'rock':
+          return  'You Lose!' + ' ' + 'Rock Beats Scissors'
+          break;
+        case playerSelection === 'scissors' && computerSelection === 'paper':
+          return  'You Won!' + ' ' + 'Scissors Beats Paper'
+          break;
+        case playerSelection === 'paper' && computerSelection === 'rock':
+          return  'You Won!' + ' ' + 'Paper Beats Rock'
+          break;
+        case playerSelection === 'rock' && computerSelection === 'scissors':
+          return  'You Won!' + ' ' + 'Rock Beats Scissors'
+          break;
+        default: 
+          return 'Wrong Input Reset'
+      }
+    }  
+
+    function nextRound(){
+      const playerSelection = prompt('Rock, Paper or Scissors').toLowerCase() ;
+      const computerSelection = getComputerChoice();
+      return playRound(playerSelection, computerSelection);
+    }
+
+    function game(){
+      let gameWinner = 0; 
+      let gameLoser = 0;
+      let ties = 0;
+      
+      for (let i = 0; i < 5; ++i){
+        let nextRoundResult = nextRound(); 
+        console.log(nextRoundResult);
+      if (nextRoundResult.includes('You Won!' + ' ' + 'Rock Beats Scissors')
+      || nextRoundResult.includes('You Won!' + ' ' + 'Paper Beats Rock')
+      || nextRoundResult.includes('You Won!' + ' ' + 'Scissors Beats Paper')){
+        ++gameWinner;
+      } else if(nextRoundResult.includes('You Lose!' + ' ' + 'Paper Beats Rock')
+      || nextRoundResult.includes('You Lose!' + ' ' + 'Scissors Beats Paper')
+      || nextRoundResult.includes('You Lose!' + ' ' + 'Rock Beats Scissors')){
+        ++gameLoser;
+      } else{
+        ++ties;
+      }
+      }
+    
+      if (gameWinner > gameLoser) {
+        return 'You won the game'
+      } else if (gameLoser > gameWinner){
+        return 'You lost the game'
+      } else{
+        return 'It\'s a tie'
+      }
+    }
+
+    console.log(game())
+
+    </script>
+  </body>
+</html>
