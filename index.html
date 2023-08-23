@@ -9,7 +9,7 @@
   </head>
   <body>
     <h1>Rock Paper Scissors</h1>
-    <div class="mainDiv">
+    <div id="mainDiv">
       <div id="player">Player: </div>
       <div id="computer">Computer: </div>
       <button class="rock">Rock</button>
@@ -58,100 +58,95 @@
       }
     }  
 
-   
- const mainDiv = document.querySelector('.mainDiv')
-    mainDiv.addEventListener('click', (e) => {
-      if (e.target.classList.value === 'scissors'){
+  const newGame = document.querySelector('.newGame');
+    newGame.addEventListener('click', () => {   
+    roundsWon = 0;
+    roundsLost = 0;
+    playerCount = 0; 
+    computerCount = 0;
+    tie = 0;
+    mainDiv.removeChild(gameResult)
+    mainDiv.removeChild(winnerOrLoser)
+    const player = document.getElementById('player')
+    player.textContent = `Player: ${playerCount}`
+    const computer = document.getElementById('computer')
+    computer.textContent = `Computer: ${computerCount}`
+    mainDiv.addEventListener('click', selection);
+    })
+
+  const mainDiv = document.getElementById('mainDiv');
+    mainDiv.addEventListener('click', selection);  
+    function selection(event){  
+      if (event.target.classList.contains('scissors')){  
         playerSelection = 'scissors'; 
         game(playerSelection);
-      } else if (e.target.classList.value === 'paper'){
+        fiveRounds();
+        } else if (event.target.classList.contains('paper')){  
         playerSelection = 'paper';
         game(playerSelection);
-      } else if (e.target.classList.value === 'rock'){
+        fiveRounds();
+        } else if (event.target.classList.contains('rock')){
         playerSelection = 'rock';
         game(playerSelection);
+        fiveRounds();
+        }
+    }
+
+    let roundsWon = 0;
+    let roundsLost = 0;
+    function fiveRounds(){
+      if (gameResult.textContent === 'You Won!' + ' ' + 'Rock Beats Scissors'
+      || gameResult.textContent ==='You Won!' + ' ' + 'Paper Beats Rock'
+      || gameResult.textContent ==='You Won!' + ' ' + 'Scissors Beats Paper'){
+        roundsWon++; 
+      } else if(gameResult.textContent === 'You Lose!' + ' ' + 'Paper Beats Rock'
+      || gameResult.textContent === 'You Lose!' + ' ' + 'Scissors Beats Paper'
+      || gameResult.textContent === 'You Lose!' + ' ' + 'Rock Beats Scissors'){
+        roundsLost++;
       } 
-    });   
-   
+      
+      if (roundsWon === 5 || roundsLost === 5) mainDiv.removeEventListener('click', selection)
+    }
+
+
+
+    const gameResult = document.createElement('div');
+    function game(playerSelection){
+      const computerSelection = getComputerChoice(); 
+      gameResult.textContent = playRound(playerSelection, computerSelection);
+      mainDiv.appendChild(gameResult);
+      score(gameResult); 
+    };
     
     let playerCount = 0; 
     let computerCount = 0;
     let tie = 0;
-
-    function game(playerSelection){
-      const computerSelection = getComputerChoice();
-      const div = document.querySelector('mainDiv');
-      const gameResult = document.createElement('div');
-      gameResult.textContent = playRound(playerSelection, computerSelection);
-      mainDiv.appendChild(gameResult);
-
+    const winnerOrLoser = document.createElement('div');
+    function score(gameResult){
       if (gameResult.textContent === 'You Won!' + ' ' + 'Rock Beats Scissors'
       || gameResult.textContent ==='You Won!' + ' ' + 'Paper Beats Rock'
       || gameResult.textContent ==='You Won!' + ' ' + 'Scissors Beats Paper'){
-        ++playerCount;
+        playerCount++;
         const player = document.getElementById('player')
         player.textContent = `Player: ${playerCount}`
       } else if(gameResult.textContent === 'You Lose!' + ' ' + 'Paper Beats Rock'
       || gameResult.textContent === 'You Lose!' + ' ' + 'Scissors Beats Paper'
       || gameResult.textContent === 'You Lose!' + ' ' + 'Rock Beats Scissors'){
-        ++computerCount;
-        const player = document.getElementById('computer')
-        player.textContent = `Computer: ${computerCount}`
+        computerCount++;
+        const computer = document.getElementById('computer')
+        computer.textContent = `Computer: ${computerCount}`
       } else{
-        ++tie;
-      }
-      
-      
-        
-    };
+        tie++;
+      }   
 
-
-     
-    
-
-
-
-
-
-
-
-
-// let gameWinner = 0; 
-//       let gameLoser = 0;
-//       let ties = 0;
-         
-//       if (gameResult === 'You Won!' + ' ' + 'Rock Beats Scissors'
-//       || gameResult ==='You Won!' + ' ' + 'Paper Beats Rock'
-//       || gameResult ==='You Won!' + ' ' + 'Scissors Beats Paper'){
-//         ++gameWinner;
-//       } else if(gameResult === 'You Lose!' + ' ' + 'Paper Beats Rock'
-//       || gameResult === 'You Lose!' + ' ' + 'Scissors Beats Paper'
-//       || gameResult === 'You Lose!' + ' ' + 'Rock Beats Scissors'){
-//         ++gameLoser;
-//       } else{
-//         ++ties;
-//       }
-      
-//       if (gameWinner > gameLoser) {
-//         return 'You won the game'
-//       } else if (gameLoser > gameWinner){
-//         return 'You lost the game'
-//       } else{
-//         return 'It\'s a tie'
-//       } 
-
-
-
-
-
-
-
-    // function nextRound(){
-      
-    
-
-    // console.log(game())
-
+       if (playerCount === 5){
+        winnerOrLoser.textContent = 'You Win'
+        mainDiv.appendChild(winnerOrLoser)
+      } else if (computerCount === 5){
+        winnerOrLoser.textContent = 'You Lost'
+        mainDiv.appendChild(winnerOrLoser)
+       }
+    }
     </script>
   </body>
 </html>
