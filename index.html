@@ -15,7 +15,7 @@
       <button class="rock">Rock</button>
       <button class="paper">Paper</button>
       <button class="scissors">Scissors</button>
-      <button class="newGame">New Game</button>
+      <span></span>
     </div>
     <script>
 
@@ -58,22 +58,6 @@
       }
     }  
 
-  const newGame = document.querySelector('.newGame');
-    newGame.addEventListener('click', () => {   
-    roundsWon = 0;
-    roundsLost = 0;
-    playerCount = 0; 
-    computerCount = 0;
-    tie = 0;
-    mainDiv.removeChild(gameResult)
-    mainDiv.removeChild(winnerOrLoser)
-    const player = document.getElementById('player')
-    player.textContent = `Player: ${playerCount}`
-    const computer = document.getElementById('computer')
-    computer.textContent = `Computer: ${computerCount}`
-    mainDiv.addEventListener('click', selection);
-    })
-
   const mainDiv = document.getElementById('mainDiv');
     mainDiv.addEventListener('click', selection);  
     function selection(event){  
@@ -92,6 +76,9 @@
         }
     }
 
+    const span = document.querySelector('span');
+    const newGameDiv = document.createElement('button');
+    newGameDiv.textContent = 'New Game';
     let roundsWon = 0;
     let roundsLost = 0;
     function fiveRounds(){
@@ -105,10 +92,39 @@
         roundsLost++;
       } 
       
-      if (roundsWon === 5 || roundsLost === 5) mainDiv.removeEventListener('click', selection)
+      if (roundsWon === 5 || roundsLost === 5) {
+        mainDiv.removeEventListener('click', selection)
+        mainDiv.insertBefore(newGameDiv, span);
+        newGame();
+      }
+
     }
 
+    function newGame(){
+      newGameDiv.addEventListener('click', () => {   
+        roundsWon = 0;
+        roundsLost = 0;
+        playerCount = 0; 
+        computerCount = 0;
+        tie = 0;
+        if (mainDiv.contains(gameResult)) {
+            mainDiv.removeChild(gameResult);
+        }
+        if (mainDiv.contains(winnerOrLoser)) {
+          mainDiv.removeChild(winnerOrLoser);
+        }
+        const player = document.getElementById('player');
+        player.textContent = `Player: ${playerCount}`;
+        const computer = document.getElementById('computer');
+        computer.textContent = `Computer: ${computerCount}`;
+        mainDiv.addEventListener('click', selection);
+        
+        if (mainDiv.contains(newGameDiv)) {
+          mainDiv.removeChild(newGameDiv);
+        }
 
+      })
+    }
 
     const gameResult = document.createElement('div');
     function game(playerSelection){
